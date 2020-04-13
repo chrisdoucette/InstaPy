@@ -1,6 +1,5 @@
 from instapy import time_util
 from instapy import util
-import pytest
 from datetime import datetime
 
 
