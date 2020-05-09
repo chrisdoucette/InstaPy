@@ -34,6 +34,7 @@ from .print_log_writer import get_log_time
 from .relationship_tools import get_followers
 from .relationship_tools import get_nonfollowers
 from .relationship_tools import get_following
+from .relationship_tools import get_followers_by_ratio
 from .database_engine import get_database
 from .quota_supervisor import quota_supervisor
 from .util import is_follow_me
@@ -222,6 +223,7 @@ def unfollow(
     InstapyFollowed,
     nonFollowers,
     allFollowing,
+    by_ratio,
     style,
     automatedFollowedPool,
     relationship_data,
@@ -296,6 +298,7 @@ def unfollow(
         or InstapyFollowed is True
         or nonFollowers is True
         or allFollowing is True
+        or by_ratio is not None
     ):
 
         if nonFollowers is True:
@@ -316,6 +319,10 @@ def unfollow(
             unfollow_list = get_nonfollowers(
                 browser, username, relationship_data, False, True, logger, logfolder
             )
+
+        elif by_ratio is not None:
+            logger.info("Unfollowing users by potency ratio: {}\n".format(by_ratio))
+            unfollow_list = get_followers_by_ratio(browser, username, relationship_data,by_ratio,logger,logfolder)
 
         # pick only the users in the right track- ["all" or "nonfollowers"]
         # for `customList` and

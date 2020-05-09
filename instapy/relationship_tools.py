@@ -793,6 +793,23 @@ def get_fans(
     return fans
 
 
+def get_followers_by_ratio(browser,username,relationship_data,ratio,logger,log_folder):
+    followers_by_ratio = []
+    followers = get_following(browser,username,"full",relationship_data,False,False,logger,log_folder)
+    for user in followers:
+        user_link = "https://www.instagram.com/{}/".format(user)
+        web_address_navigator(browser, user_link)
+        follower_count = browser.execute_script(
+            "return window._sharedData.entry_data.ProfilePage[0].graphql.user.edge_followed_by.count"
+        )
+        following_count = browser.execute_script(
+            "return window._sharedData.entry_data.ProfilePage[0].graphql.user.edge_follow.count"
+        )
+        if following_count / follower_count > ratio:
+            followers_by_ratio.append(user)
+    return followers_by_ratio
+
+
 def get_mutual_following(
     browser, username, relationship_data, live_match, store_locally, logger, logfolder
 ):
