@@ -2040,7 +2040,6 @@ def get_time_until_next_month():
 
     return remaining_seconds
 
-
 def remove_extra_spaces(text):
     """ Find and remove redundant spaces more than 1 in text """
     new_text = re.sub(r" {2,}", " ", text)
