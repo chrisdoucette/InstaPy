@@ -1,3 +1,5 @@
+import pytest
+
 from instapy import util
 from instapy import InstaPy
 from datetime import datetime
@@ -30,9 +32,10 @@ def test_deform_emojis():
     assert emojiless_text == " wow!"
 
 
+@pytest.mark.skip(reason="github actions not working properly with selenium webdrivers")
 def test_get_followers_by_ratio():
     instagram_username = 'netsud0'
-    instagram_password = 'Cc51316!'
+    instagram_password = 'Comp490Test!'
 
     session = InstaPy(username=instagram_username,
                       password=instagram_password,
@@ -45,9 +48,10 @@ def test_get_followers_by_ratio():
     session.browser.close()
 
 
+@pytest.mark.skip(reason="github actions not working properly with selenium webdrivers")
 def test_automated_scroll():
     instagram_username = 'netsud0'
-    instagram_password = 'Cc51316!'
+    instagram_password = 'Comp490Test!'
 
     session = InstaPy(username=instagram_username,
                       password=instagram_password,
