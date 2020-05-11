@@ -5,6 +5,7 @@ import glob
 import random
 import json
 
+from.util import is_private_profile
 from .time_util import sleep
 from .util import web_address_navigator
 from .util import get_relationship_counts
@@ -57,6 +58,13 @@ def get_followers(
         grab = followers_count
 
     # TO-DO: Check if user's account is not private
+    # Check if user's account is private
+    is_private = is_private_profile(browser, logger)
+    if is_private is None:
+        logger.info("Account not private.")
+    if is_private is True:
+        logger.info("This user is private, you cannot grab his/her followers")
+        return False
 
     # sets the amount of usernames to be matched in the next queries
     match = (
@@ -334,7 +342,14 @@ def get_following(
         )
         grab = following_count
 
-    # TO-DO: Check if user's account is not private
+    # Implement private account check: Check if user's account is not private
+    is_private = is_private_profile(browser, logger)
+    if is_private is None:
+        logger.info("This user is not private.")
+
+    if is_private is True:
+        logger.info("This user is private, you cannot grab his following users")
+        return False
 
     # sets the amount of usernames to be matched in the next queries
     match = (
