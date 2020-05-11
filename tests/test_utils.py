@@ -1,6 +1,9 @@
 from instapy import time_util
 from instapy import util
+from instapy import InstaPy
 from datetime import datetime
+from instapy import relationship_tools
+from instapy import time_util
 
 
 def test_get_time():
@@ -26,3 +29,33 @@ def test_deform_emojis():
     new_text, emojiless_text = util.deform_emojis(emoji)
     assert new_text == " (clown face) wow!"
     assert emojiless_text == " wow!"
+
+
+def test_get_followers_by_ratio():
+    instagram_username = 'netsud0'
+    instagram_password = 'Cc51316!'
+
+    session = InstaPy(username=instagram_username,
+                      password=instagram_password,
+                      headless_browser=False)
+
+    session.login()
+    followers = relationship_tools.get_followers_by_ratio(session.browser, instagram_username, session.relationship_data, 1, session.logger, session.logfolder)
+    assert len(followers) == 1
+    session.browser.close()
+
+
+def test_automated_scroll():
+    instagram_username = 'netsud0'
+    instagram_password = 'Cc51316!'
+
+    session = InstaPy(username=instagram_username,
+                      password=instagram_password,
+                      headless_browser=False)
+
+    session.login()
+    util.web_address_navigator(session.browser, 'https://www.instagram.com/instagram/')
+    time_util.sleep(2)
+    scroll_offset = session.browser.execute_script('return window.scrollY')
+    assert scroll_offset > 0
+    session.browser.close()
