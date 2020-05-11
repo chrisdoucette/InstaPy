@@ -25,6 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -U seleniumbase
+        pip install instapy
     - name : install Geckodriver
       run: |
         seleniumbase install geckodriver
@@ -38,5 +39,4 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest --driver Firefox
         python -m pytest 
