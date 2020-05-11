@@ -342,15 +342,6 @@ def get_following(
         )
         grab = following_count
 
-    # Implement private account check: Check if user's account is not private
-    is_private = is_private_profile(browser, logger)
-    if is_private is None:
-        logger.info("This user is not private.")
-
-    if is_private is True:
-        logger.info("This user is private, you cannot grab his following users")
-        return False
-
     # sets the amount of usernames to be matched in the next queries
     match = (
         None
