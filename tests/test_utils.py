@@ -1,4 +1,3 @@
-from instapy import time_util
 from instapy import util
 from instapy import InstaPy
 from datetime import datetime
@@ -40,7 +39,8 @@ def test_get_followers_by_ratio():
                       headless_browser=False)
 
     session.login()
-    followers = relationship_tools.get_followers_by_ratio(session.browser, instagram_username, session.relationship_data, 1, session.logger, session.logfolder)
+    followers = relationship_tools.get_followers_by_ratio\
+        (session.browser, instagram_username, session.relationship_data, 1, session.logger, session.logfolder)
     assert len(followers) == 1
     session.browser.close()
 
