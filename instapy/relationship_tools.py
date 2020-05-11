@@ -793,9 +793,9 @@ def get_fans(
     return fans
 
 
-def get_followers_by_ratio(browser,username,relationship_data,ratio,logger,log_folder):
+def get_followers_by_ratio(browser, username, relationship_data, ratio, logger, log_folder):
     followers_by_ratio = []
-    followers = get_following(browser,username,"full",relationship_data,False,False,logger,log_folder)
+    followers = get_following(browser, username, "full", relationship_data, False, True, logger, log_folder)
     for user in followers:
         user_link = "https://www.instagram.com/{}/".format(user)
         web_address_navigator(browser, user_link)

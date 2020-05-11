@@ -1185,6 +1185,10 @@ def web_address_navigator(browser, link):
                 # update server calls
                 update_activity(browser, state=None)
                 sleep(2)
+                # autoscroll implemented to bypass bot detection
+                script = "window.scroll({top: (document.body.scrollHeight * (1/%d)), behavior: 'smooth' })" \
+                         % random.randint(1, 5)
+                browser.execute_script(script)
                 break
 
             except TimeoutException as exc:
