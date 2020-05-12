@@ -4487,6 +4487,7 @@ class InstaPy:
         unfollow_after: int = None,
         delay_followbackers: int = 0,  # 864000 = 10 days, 0 = don't delay
         sleep_delay: int = 600,
+        potency_ratio: int = None,
     ):
         """Unfollows (default) 10 users from your following list"""
 
@@ -4521,6 +4522,7 @@ class InstaPy:
                 (instapy_followed_enabled, instapy_followed_param),
                 nonFollowers,
                 allFollowing,
+                potency_ratio,
                 style,
                 self.automatedFollowedPool,
                 self.relationship_data,

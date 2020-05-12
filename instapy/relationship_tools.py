@@ -5,6 +5,7 @@ import glob
 import random
 import json
 
+from.util import is_private_profile
 from .time_util import sleep
 from .util import web_address_navigator
 from .util import get_relationship_counts
@@ -57,6 +58,13 @@ def get_followers(
         grab = followers_count
 
     # TO-DO: Check if user's account is not private
+    # Check if user's account is private
+    is_private = is_private_profile(browser, logger)
+    if is_private is None:
+        logger.info("Account not private.")
+    if is_private is True:
+        logger.info("This user is private, you cannot grab his/her followers")
+        return False
 
     # sets the amount of usernames to be matched in the next queries
     match = (
@@ -333,8 +341,6 @@ def get_following(
             " ~gonna grab all available"
         )
         grab = following_count
-
-    # TO-DO: Check if user's account is not private
 
     # sets the amount of usernames to be matched in the next queries
     match = (
@@ -791,6 +797,23 @@ def get_fans(
     )
 
     return fans
+
+
+def get_followers_by_ratio(browser, username, relationship_data, ratio, logger, log_folder):
+    followers_by_ratio = []
+    followers = get_following(browser, username, "full", relationship_data, False, True, logger, log_folder)
+    for user in followers:
+        user_link = "https://www.instagram.com/{}/".format(user)
+        web_address_navigator(browser, user_link)
+        follower_count = browser.execute_script(
+            "return window._sharedData.entry_data.ProfilePage[0].graphql.user.edge_followed_by.count"
+        )
+        following_count = browser.execute_script(
+            "return window._sharedData.entry_data.ProfilePage[0].graphql.user.edge_follow.count"
+        )
+        if following_count / follower_count > ratio:
+            followers_by_ratio.append(user)
+    return followers_by_ratio
 
 
 def get_mutual_following(
